@@ -1,5 +1,5 @@
 <?php
-
+exit;
 error_reporting(E_ALL);
 //ini_set('max_execution_time', 0);
 
@@ -15,15 +15,14 @@ foreach($html->find('.mw-parser-output ol li a') as $key => $value){
     $title = $value->getAttribute('title');
     if(isset($title) && $title !== null && strpos($title, '(page does not exist)') == false){
         $link = $prefix . $value->getAttribute('href');
-        if(substr_count($link, 'https') > 1) continue;
-        if(strpos($link, 'https') !== false && strpos($link, 'http') !== false) continue;
+        if(substr_count($link, 'http') > 1) continue;
 
-        $links[] = $link;
+        $firstPageLinks[] = $link;
     }
 }
 
-$links = array_unique($links);
-$links = array_values($links);
+$firstPageLinks = array_unique($firstPageLinks);
+$firstPageLinks = array_values($firstPageLinks);
 
-$links = json_encode($links, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-file_put_contents('json/firstPageLinks.json', $links);
+$firstPageLinks = json_encode($firstPageLinks, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+file_put_contents('json/firstPageLinks.json', $firstPageLinks);
